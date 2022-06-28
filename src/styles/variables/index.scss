@@ -1,0 +1,280 @@
+@mixin row($mr) {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -#{$mr}px;
+  margin-right: -#{$mr}px;
+}
+
+@mixin row-flex() {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+@mixin col($colsize, $mrg) {
+  width: calc(100% / 12 * #{$colsize} - #{$mrg * 2}px - 0.1px);
+  margin-left: #{$mrg}px;
+  margin-right: #{$mrg}px;
+  word-wrap: break-word;
+}
+
+@mixin coloff($coloffset, $mrg2) {
+  margin-left: calc(100% / 12 * #{$coloffset} + #{$mrg2}px);
+}
+
+%container {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1460px;
+}
+
+@mixin ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+@mixin flex($type) {
+  display: flex;
+  @if ($type == "lc") {
+    justify-content: flex-start;
+    align-items: center;
+  }
+  @if ($type == "sc") {
+    justify-content: space-between;
+    align-items: center;
+  }
+  @if ($type == "rc") {
+    justify-content: flex-end;
+    align-items: center;
+  }
+  @if ($type == "cc") {
+    justify-content: center;
+    align-items: center;
+  }
+  @if ($type == "ct") {
+    justify-content: center;
+    align-items: flex-start;
+  }
+  @if ($type == "lt") {
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  @if ($type == "st") {
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  @if ($type == "rt") {
+    justify-content: flex-end;
+    align-items: flex-start;
+  }
+  @if ($type == "ce") {
+    justify-content: center;
+    align-items: flex-end;
+  }
+  @if ($type == "le") {
+    justify-content: flex-start;
+    align-items: flex-end;
+  }
+  @if ($type == "se") {
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  @if ($type == "re") {
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+}
+
+@mixin flexcol($type: "t", $wrap: "w") {
+  display: flex;
+  flex-direction: column;
+  @if ($type == "t") {
+    justify-content: flex-start;
+  }
+  @if ($type == "s") {
+    justify-content: space-between;
+  }
+  @if ($wrap == "w") {
+    flex-wrap: wrap;
+  }
+  @if ($type == "n") {
+    flex-wrap: nowrap;
+  }
+}
+
+@mixin laptop-lg {
+  @media screen and (max-width: 1600px) {
+    @content;
+  }
+}
+
+@mixin laptop-md {
+  @media screen and (max-width: 1460px) {
+    @content;
+  }
+}
+
+@mixin laptop-sm {
+  @media screen and (max-width: 1366px) {
+    @content;
+  }
+}
+
+@mixin laptop-xs {
+  @media screen and (max-width: 1300px) {
+    @content;
+  }
+}
+
+@mixin tablet-1100 {
+  @media screen and (max-width: 1100px) {
+    @content;
+  }
+}
+
+@mixin tablet-lg {
+  @media screen and (max-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin ipad {
+  @media screen and (max-width: 810px) {
+    @content;
+  }
+}
+
+@mixin tablet-md {
+  @media screen and (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin tablet-730 {
+  @media screen and (max-width: 730px) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media screen and (max-width: 700px) {
+    @content;
+  }
+}
+
+@mixin mobile-550 {
+  @media screen and (max-width: 550px) {
+    @content;
+  }
+}
+
+@mixin mobile-lg {
+  @media screen and (max-width: 375px) {
+    @content;
+  }
+}
+
+@mixin mobile-md {
+  @media screen and (max-width: 360px) {
+    @content;
+  }
+}
+
+@mixin mobile-sm {
+  @media screen and (max-width: 320px) {
+    @content;
+  }
+}
+
+@mixin laptop-old {
+  @media screen and (max-height: 810px) and (min-width: 1150px) {
+    @content;
+  }
+}
+
+@mixin text($s) {
+  @if $s== 14 {
+    font-size: 14px;
+    line-height: 16px;
+  } @else if $s== 15 {
+    font-size: 15px;
+    line-height: 17px;
+  } @else if $s== 16 {
+    font-size: 16px;
+    line-height: 19px;
+  } @else if $s== 17 {
+    font-size: 17px;
+    line-height: 20px;
+  } @else if $s== 18 {
+    font-size: 18px;
+    line-height: 21px;
+  } @else if $s== 20 {
+    font-size: 20px;
+    line-height: 24px;
+  } @else if $s== 23 {
+    font-size: 23px;
+    line-height: 28px;
+  } @else if $s== 24 {
+    font-size: 24px;
+    line-height: 29px;
+  } @else if $s== 25 {
+    font-size: 25px;
+    line-height: 30px;
+  } @else if $s== 28 {
+    font-size: 28px;
+    line-height: 34px;
+  } @else if $s== 30 {
+    font-size: 30px;
+    line-height: 36px;
+  } @else if $s== 55 {
+    font-size: 55px;
+    line-height: 66px;
+  }
+}
+
+@mixin square-icon($size) {
+  --icon-width: #{$size}px;
+  --icon-height: #{$size}px;
+}
+
+@mixin link {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  color: var(--gx-color-button);
+  text-decoration: none;
+}
+
+//TODO: fixed color
+@mixin scrollbar {
+  scrollbar-color: #027ffb #ffffff;
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background-color: #ffffff; /* «цвет полосы скроллбара» */
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #027ffb; /* «цвет ползунка» */
+  }
+}
+
+// в медиа-запросах для изменения количества колонок и отступов
+// менять значение переменных --col и --gap соответственно
+// $gap-row - необязательный, определяет вертикальный отступ.
+// Если не указан, вертикальный и горизонтальный отступы равны.
+@mixin grid($columns, $gap, $gap-row: null) {
+  --col: #{$columns};
+  display: grid;
+  grid-template-columns: repeat(var(--col), 1fr);
+
+  --gap: #{$gap};
+  @if $gap-row == null {
+    --gap-row: var(--gap);
+  } @else {
+    --gap-row: #{$gap-row};
+  }
+
+  grid-column-gap: var(--gap);
+  grid-row-gap: var(--gap-row);
+}
