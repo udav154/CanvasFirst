@@ -7,11 +7,17 @@ const AsyncCanvas = AsyncComponent(() => {
 });
 
 const MainPage = () => {
+  const [text, setText] = React.useState('')
+
+  const handleChangeText = (e) => {
+    setText(e.target.value)
+  }
+
   return (
     <>
     <Wrapper variant={'page_wrap'} >
-      <SettingsSide />
-      <AsyncCanvas />
+      <SettingsSide text={text} handleChangeText={handleChangeText} />
+      <AsyncCanvas  text={text}/>
     </Wrapper>
     </>
   );

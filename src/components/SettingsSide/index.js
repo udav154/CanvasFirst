@@ -1,10 +1,16 @@
 import React from "react";
 import { SettingsPanel } from "@viwes";
 
-const SettingsSide = () => {
+const SettingsSide = ({ ...props }) => {
+  const [isInputOpen, setisInputOpen] = React.useState(false);
+
+  const handleTogleInput = () => {
+    setisInputOpen(!isInputOpen);
+  };
+
   return (
     <>
-      <SettingsPanel />
+      <SettingsPanel isInputOpen={isInputOpen} handleTogleInput={handleTogleInput} {...props} />
     </>
   );
 };
