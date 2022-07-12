@@ -19,7 +19,7 @@
       "@icons": [
         "./assets/icons"
       ],
-      "@/tore": [
+      "@store": [
         "./store"
       ],
       "@viwes" :["./views"]

@@ -10,13 +10,18 @@ const MainPage = () => {
   const [text, setText] = React.useState('')
 
   const handleChangeText = (e) => {
+    e.preventDefault()
     setText(e.target.value)
+  }
+
+  const handleClearInput = () => {
+    setText('')
   }
 
   return (
     <>
     <Wrapper variant={'page_wrap'} >
-      <SettingsSide text={text} handleChangeText={handleChangeText} />
+      <SettingsSide text={text} handleChangeText={handleChangeText} handleClearInput={handleClearInput}/>
       <AsyncCanvas  text={text}/>
     </Wrapper>
     </>

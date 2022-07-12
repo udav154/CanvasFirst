@@ -1,7 +1,9 @@
-import SettingsPanel from "./SettingsPanel/SettingsPanel";
+import SettingsPanel from "./SettingsPanel";
 import Wrapper from "./Wrapper";
+import IconView from './IconView'
 
 export {
   SettingsPanel,
-  Wrapper
+  Wrapper,
+  IconView
 }

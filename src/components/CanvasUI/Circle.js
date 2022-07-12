@@ -35,7 +35,7 @@ export const behavior = {
   },
   // unmount
   customWillDetach(instance) {
-    console.log("UNMOUNT");
+    // console.log("UNMOUNT");
   },
 };
 

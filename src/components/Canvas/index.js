@@ -3,6 +3,49 @@ import * as PIXI from "pixi.js";
 import { Stage, Text, AppContext } from "react-pixi-fiber";
 import { Circle } from "../CanvasUI";
 
+
+const concatSortArr2 = (arr1 = [], arr2 = []) => {
+  const bothArr = arr1.concat(arr2);
+  const max = Math.max(...bothArr);
+  const min = Math.min(...bothArr);
+  const res = [min];
+  let tempNumber = min;
+  while (tempNumber !== max) {
+    tempNumber = Math.min(...bothArr.filter((el) => el > tempNumber));
+    res.push(tempNumber);
+  }
+  return res;
+};
+
+const concatSortArrs = (arr1 = [], arr2 = []) => {
+  let res = [];
+  let currMinArr1Idx = 0;
+  let currMinArr2Idx = 0;
+
+  for (let i = currMinArr1Idx; i < arr1.length; i++) {
+    for (let j = currMinArr2Idx; j < arr2.length; j++) {
+      if (arr2[j] < arr1[i]) {
+        res.push(arr2[j]);
+        currMinArr2Idx = j + 1;
+      } else {
+        res.push(arr1[i]);
+        currMinArr1Idx = i + 1;
+        break;
+      }
+    }
+  }
+  if (currMinArr1Idx !== arr1.length) {
+    res = res.concat(arr1.slice(currMinArr1Idx));
+  } else {
+    res = res.concat(arr2.slice(currMinArr2Idx));
+  }
+  return res;
+};
+
+
+
+
+
 const Canvas = ({ text, ...props }) => {
   const [canvasWidth, setCanvasWidth] = useState({
     height: window.innerHeight,
@@ -20,12 +63,14 @@ const Canvas = ({ text, ...props }) => {
     antialiasing: false,
     resolution: 1,
   };
+ 
 
   const handleChange = (event) => {
-    console.log('e', event)
+    // console.log("e", event);
     const coord = [event.nativeEvent.x, event.nativeEvent.y];
     setCursorCoord(coord);
   };
+
 
   useEffect(() => {
     clearTimeout(resizeTimeout.current);
@@ -33,6 +78,7 @@ const Canvas = ({ text, ...props }) => {
   }, [canvasWidth]);
 
   useEffect(() => {
+    // console.log(concatSortArr2([1, 4, 4, 4, 5, 7, 9, 10, 22], [2, 3, 4, 8, 10]));
     const resizeObserver = new ResizeObserver((entries) => {
       for (let entry of entries) {
         if (entry?.target) {
@@ -68,9 +114,16 @@ const Canvas = ({ text, ...props }) => {
                   x={500}
                   y={500}
                   style={{ color: 0x000000 }}
-                  text={"TEXT TEXT TEXT TEXT"}
+                  text={text}
                 />
-                <Circle  fill={0xfff} x={cursorCoord[0]} y={cursorCoord[1]} radius={10} id={6}  lineStyle={1}/>
+                <Circle
+                  fill={0xfff}
+                  x={cursorCoord[0]}
+                  y={cursorCoord[1]}
+                  radius={10}
+                  id={6}
+                  lineStyle={1}
+                />
               </>
             );
           }}
