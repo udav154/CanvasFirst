@@ -1,8 +1,7 @@
+import Viewport from "components/Viewport";
 import React, { useEffect, useState, useRef } from "react";
-import * as PIXI from "pixi.js";
 import { Stage, Text, AppContext } from "react-pixi-fiber";
 import { Circle } from "../CanvasUI";
-
 
 const concatSortArr2 = (arr1 = [], arr2 = []) => {
   const bothArr = arr1.concat(arr2);
@@ -41,10 +40,11 @@ const concatSortArrs = (arr1 = [], arr2 = []) => {
   }
   return res;
 };
+// console.log(concatSortArr2([1, 4, 4, 4, 5, 7, 9, 10, 22], [2, 3, 4, 8, 10]));
 
-
-
-
+// const EventsCollector = ({ app, children, ...props }) => {
+//   return children({});
+// };
 
 const Canvas = ({ text, ...props }) => {
   const [canvasWidth, setCanvasWidth] = useState({
@@ -54,31 +54,31 @@ const Canvas = ({ text, ...props }) => {
 
   const [cursorCoord, setCursorCoord] = useState([100, 100]);
 
+  const cursorRef = useRef(null);
   const canvasWrap = useRef(null);
   const resizeTimeout = useRef(null);
 
   const options = {
     backgroundColor: 0xffffff,
-    interactive: true,
-    antialiasing: false,
+    antialiasing: true,
     resolution: 1,
+    powerPreference: "high-performance",
   };
- 
 
   const handleChange = (event) => {
-    // console.log("e", event);
-    const coord = [event.nativeEvent.x, event.nativeEvent.y];
-    setCursorCoord(coord);
+    const { x, y } = event.nativeEvent;
+    setCursorCoord({ x, y });
+    // cursorRef.current = { x, y };
   };
 
-
   useEffect(() => {
+    console.log("Update Size Canvas");
     clearTimeout(resizeTimeout.current);
     resizeTimeout.current = null;
   }, [canvasWidth]);
 
   useEffect(() => {
-    // console.log(concatSortArr2([1, 4, 4, 4, 5, 7, 9, 10, 22], [2, 3, 4, 8, 10]));
+    console.log("Did Mount");
     const resizeObserver = new ResizeObserver((entries) => {
       for (let entry of entries) {
         if (entry?.target) {
@@ -97,33 +97,45 @@ const Canvas = ({ text, ...props }) => {
   return (
     <div ref={canvasWrap} className={"canvas_wrap"}>
       <Stage
+        className={"scene"}
         options={options}
         width={canvasWidth.width}
         height={canvasWidth.height}
-        className={"scene"}
-        onPointerDown={() => {
-          console.log("12312312", 12312312);
-        }}
-        onPointerMove={handleChange}
+        onMouseMove={handleChange}
       >
         <AppContext.Consumer>
           {(app) => {
+            app.ticker.add((delta) => {
+              // const mouseposition = app.renderer.plugins.interaction.mouse.global;
+              // setCursorCoord(cursorRef.current);
+            });
+
             return (
               <>
+                {/* <Viewport app={app}> */}
+                {/* <EventsCollector app={app}> */}
+                {/* {({ ...eventsProps }) => { */}
+                {/* return ( */}
+                {/* <> */}
                 <Text
-                  x={500}
+                  x={200}
                   y={500}
                   style={{ color: 0x000000 }}
-                  text={text}
+                  text={"text"}
                 />
                 <Circle
                   fill={0xfff}
-                  x={cursorCoord[0]}
-                  y={cursorCoord[1]}
+                  x={cursorCoord?.x - 70 || 50}
+                  y={cursorCoord?.y || 50}
                   radius={10}
                   id={6}
                   lineStyle={1}
                 />
+                {/* </> */}
+                {/* ); */}
+                {/* }} */}
+                {/* </EventsCollector> */}
+                {/* </Viewport> */}
               </>
             );
           }}

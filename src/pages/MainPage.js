@@ -1,5 +1,5 @@
 import React from "react";
-import { SettingsSide, AsyncComponent } from "@components";
+import { SettingsSide, Canvas, AsyncComponent } from "@components";
 import { Wrapper } from "@viwes";
 
 const AsyncCanvas = AsyncComponent(() => {
@@ -23,6 +23,7 @@ const MainPage = () => {
     <Wrapper variant={'page_wrap'} >
       <SettingsSide text={text} handleChangeText={handleChangeText} handleClearInput={handleClearInput}/>
       <AsyncCanvas  text={text}/>
+      {/* <Canvas  text={text}/> */}
     </Wrapper>
     </>
   );

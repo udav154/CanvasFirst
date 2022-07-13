@@ -1,48 +1,29 @@
+import React, { useRef, useState } from "react";
 import { Graphics } from "pixi.js";
 import { CustomPIXIComponent } from "react-pixi-fiber";
 
+const TYPE = "CIRCLE";
+
 export const behavior = {
-  customDisplayObject: (props) => {
-    const graphics = new Graphics();
-    return graphics;
-  },
-  // did Updatae
-  customApplyProps(instance, oldProps, newProps) {
-    const {
-      radius: oldradius,
-      fill: oldFill,
-      id: oldId,
-      lineStyle: oldlineStyle,
-      ...restOld
-    } = oldProps;
+  customDisplayObject: (props) => new Graphics(),
+  customApplyProps: function (instance, oldProps = {}, newProps = {}) {
+    const { radius, fill, lineStyle = 0, id, ...restNew } = newProps;
 
-    const { radius, fill, id, lineStyle = 0, ...restNew } = newProps;
+    instance.clear();
+    instance.alpha = 0.5;
+    instance.beginFill(fill);
+    instance.drawCircle(0, 0, radius);
+    instance.endFill();
 
-    if (restNew.x !== restOld.x || restNew.y !== restOld.y) {
-      instance.geometry.dispose();
-
-      instance.clear();
-      instance.lineStyle(lineStyle);
-      instance.beginFill(fill);
-  
-      instance.drawCircle(0, 0, radius);
-      instance.endFill();
-      instance.name = "CIRCLE";
-
-      instance.id = id;
-    }
-    this.applyDisplayObjectProps(restOld, restNew);
-  },
-  // unmount
-  customWillDetach(instance) {
-    // console.log("UNMOUNT");
+    this.applyDisplayObjectProps(oldProps, restNew);
   },
 };
 
 const Circle = ({ ...props }) => {
-  const CircleConstructor = CustomPIXIComponent(behavior, "CIRCLE");
 
-  return <CircleConstructor {...props} />;
+  const CircleConstructor = CustomPIXIComponent(behavior, TYPE);
+
+  return <CircleConstructor {...props}  />;
 };
 
 export default Circle;
