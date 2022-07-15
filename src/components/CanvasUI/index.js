@@ -1,5 +1,5 @@
 import Circle from './Circle'
 
-export  {
+export default {
   Circle
 }

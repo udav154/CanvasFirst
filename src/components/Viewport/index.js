@@ -9,10 +9,12 @@ const behavior = {
       passiveWheel: true,
       interaction: props.app.renderer.plugins.interaction,
     })
+      .drag()
       .pinch()
+      .wheel()
       .decelerate({
         friction: 0,
-      })
+      });
 
     // viewport.fit();
     return viewport;
@@ -32,6 +34,7 @@ const behavior = {
       pause,
       zoomScale = 1,
       setZoomScale = () => {},
+      onPointerMove,
       ...restNew
     } = newProps;
 
