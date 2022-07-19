@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "jsx": "preserve",
+    "baseUrl": "./src",
+    "paths": {
+      "@components": [
+        "./components"
+      ],
+      "@pages": [
+        "./pages"
+      ],
+      "@assets": [
+        "./assets"
+      ],
+      "@images": [
+        "./assets/img"
+      ],
+      "@icons": [
+        "./assets/icons"
+      ],
+      "@store": [
+        "./store"
+      ],
+      "@viwes" :["./views"]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "public"
+  ]
+}

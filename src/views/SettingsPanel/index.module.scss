@@ -1,0 +1,231 @@
+.setting {
+  &_wrap {
+    width: 70px;
+    height: 100%;
+    background-color: #bfbfbf;
+    flex-shrink: 0;
+    z-index: 1;
+    box-shadow: 6px 0px 8px 0px rgba(34, 60, 80, 0.2);
+    padding: 10px;
+  }
+}
+
+.input_wrap {
+  box-shadow: 0px 0px 20px 3px rgba(0, 0, 0, 0.12);
+  border: 1px solid #979797;
+  background-color: white;
+  position: relative;
+  width: max-content;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 50px;
+  width: 50px;
+  transition: 0.5s ease;
+  transform-origin: left center;
+  margin: 10px 0;
+
+  &[open] {
+    width: 600px;
+    .input_custom {
+      opacity: 1;
+    }
+    .btn_custom {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+
+  .input_wrapper {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .input_custom,
+  .btn_custom {
+    background-color: white;
+    width: inherit;
+    height: inherit;
+    color: #383838;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 20px;
+    transition: 0.5s ease;
+    border: none;
+  }
+
+  .input_custom {
+    opacity: 0;
+    width: 100%;
+    &::placeholder {
+      color: #bfbfbf;
+      opacity: 0.5;
+    }
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  .input_clear,
+  .input_hide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    opacity: 0.4;
+    background-color: #bfbfbf;
+    color: #000000;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  .input_clear {
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    padding: 5px;
+  }
+
+  .input_hide {
+    height: 100%;
+    width: 45px;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+    margin-left: 10px;
+    svg {
+      transform: rotate(-180deg);
+    }
+  }
+
+  .btn_custom {
+    opacity: 1;
+    width: 50px;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
+.btn_open {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  width: 50px;
+  box-shadow: 0px 0px 20px 3px rgba(0, 0, 0, 0.12);
+  border: 1px solid #979797;
+  background-color: white;
+  border-radius: 10px;
+  margin: 10px 0;
+  transition: 0.3s;
+
+  &[disabled] {
+    cursor: default;
+    pointer-events: none;
+    opacity: 0.8;
+  }
+}
+
+.input_wrap1 {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 50px;
+  width: 0px;
+  border: none;
+  transform-origin: center;
+  transition: 0.5s ease;
+  margin: 10px 0;
+  border: 0px solid #ffffff;
+  
+  &[open] {
+    border: 1px solid #e5e5e5;
+    display: flex;
+    align-items: center;
+    width: 600px;
+    box-shadow: 0px 0px 20px 3px rgba(0, 0, 0, 0.12);
+    .input_custom {
+      opacity: 1;
+    }
+  }
+
+
+  .input_custom,
+  .btn_custom {
+    background-color: white;
+    width: inherit;
+    height: inherit;
+    color: #383838;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 20px;
+    transition: 0.5s ease;
+    border: none;
+  }
+
+  .input_custom {
+    width: 100%;
+    &::placeholder {
+      color: #bfbfbf;
+      opacity: 0.5;
+    }
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  .input_clear,
+  .input_hide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    opacity: 0.4;
+    background-color: #bfbfbf;
+    color: #000000;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  .input_clear {
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    padding: 5px;
+  }
+
+  .input_hide {
+    height: 100%;
+    width: 45px;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+    margin-left: 10px;
+    svg {
+      transform: rotate(-180deg);
+    }
+  }
+
+  .btn_custom {
+    opacity: 1;
+    width: 50px;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
