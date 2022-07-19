@@ -23,11 +23,15 @@ export const behavior = {
     instance.drawCircle(x, y, radius);
     instance.endFill();
 
-    this.applyDisplayObjectProps(oldProps, restNew);
+    // this.applyDisplayObjectProps(oldProps, restNew);
   },
 };
 
 const Circle = ({ ...props }) => {
+  useEffect(() => {
+    console.log("render Circle");
+  }, []);
+
   const CircleConstructor = CustomPIXIComponent(behavior, TYPE);
 
   return <CircleConstructor {...props} />;
