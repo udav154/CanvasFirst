@@ -9,14 +9,6 @@ import {
 } from "@components";
 import CanvasLayout from "components/CanvasLayout";
 
-// const EventsCollector = ({ app, children, ...props }) => {
-//   useEffect(() => {
-//     console.log(111111);
-//   }, []);
-
-//   return children({});
-// };
-
 const Canvas = ({ text, ...props }) => {
   const [canvasWidth, setCanvasWidth] = useState({
     height: window.innerHeight,
@@ -66,14 +58,20 @@ const Canvas = ({ text, ...props }) => {
   return (
     <div ref={canvasWrap} className={"canvas_wrap"}>
       <CanvasLayout>
-        {({ cursorPoint, setCursor, ...layoutProps }) => {
+        {({
+          cursorPoint,
+          circleRadius,
+          handleMouseMove,
+          trailDrawPoints,
+          ...layoutProps
+        }) => {
           return (
             <Stage
               className={"scene"}
               options={options}
               width={canvasWidth.width}
               height={canvasWidth.height}
-              onPointerMove={setCursor}
+              onPointerMove={handleMouseMove}
             >
               <Stats />
               <AppContext.Consumer>
@@ -89,13 +87,62 @@ const Canvas = ({ text, ...props }) => {
                         style={{ color: 0x000000 }}
                         text={text || "placeholder"}
                       /> */}
+                      {trailDrawPoints.map((el, idx) => {
+                        if (idx === 0) {
+                          return (
+                            <>
+                              <CanvasUI.Circle
+                                fill={0x000000}
+                                x={el[0].x- 70}
+                                y={el[0].y}
+                                radius={3}
+                                id={`top${idx}`}
+                                lineStyle={1}
+                                alpha={1}
+                              />
+                              <CanvasUI.Circle
+                                fill={0x000000}
+                                x={el[1].x - 70}
+                                y={el[1].y}
+                                radius={3}
+                                id={`bot${idx}`}
+                                lineStyle={1}
+                                alpha={1}
+                              />
+                            </>
+                          );
+                        }
+                        return (
+                          <>
+                            <CanvasUI.Circle
+                              fill={0xfff}
+                              x={el[0].x- 70}
+                              y={el[0].y}
+                              radius={3}
+                              id={`top${idx}`}
+                              lineStyle={1}
+                              alpha={0.3}
+                            />
+                            <CanvasUI.Circle
+                              fill={0xfff}
+                              x={el[1].x - 70}
+                              y={el[1].y}
+                              radius={3}
+                              id={`bot${idx}`}
+                              lineStyle={1}
+                              alpha={0.3}
+                            />
+                          </>
+                        );
+                      })}
                       <CanvasUI.Circle
                         fill={0xfff}
                         x={cursorPoint?.x - 70 || 50}
                         y={cursorPoint?.y || 50}
-                        radius={10}
+                        radius={circleRadius}
                         id={6}
                         lineStyle={1}
+                        alpha={0.3}
                       />
                       {/* </Viewport> */}
                     </>
