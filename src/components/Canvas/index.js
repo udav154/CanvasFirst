@@ -5,6 +5,7 @@ import {
   TrailCursor,
   CursorCircle,
   Viewport,
+  CustomTrail,
   Stats,
 } from "@components";
 import CanvasLayout from "components/CanvasLayout";
@@ -79,15 +80,22 @@ const Canvas = ({ text, ...props }) => {
                   return (
                     <>
                       {/* <Viewport app={app}> */}
+                      
                       {/* <TrailCursor app={app} /> */}
                       {/* <CursorCircle app={app} /> */}
+                      
                       {/* <Text
                         x={200}
                         y={500}
                         style={{ color: 0x000000 }}
                         text={text || "placeholder"}
                       /> */}
-                      {trailDrawPoints.map((el, idx) => {
+
+                      {/* {trailDrawPoints && trailDrawPoints.length > 3 ? 
+                      <CustomTrail fill={0x000000} coords={trailDrawPoints}/>
+                      : null} */}
+
+                      {/* {trailDrawPoints.map((el, idx) => {
                         if (idx === 0) {
                           return (
                             <>
@@ -134,7 +142,9 @@ const Canvas = ({ text, ...props }) => {
                             />
                           </>
                         );
-                      })}
+                      })} */}
+
+
                       <CanvasUI.Circle
                         fill={0xfff}
                         x={cursorPoint?.x - 70 || 50}
@@ -144,6 +154,7 @@ const Canvas = ({ text, ...props }) => {
                         lineStyle={1}
                         alpha={0.3}
                       />
+                      
                       {/* </Viewport> */}
                     </>
                   );

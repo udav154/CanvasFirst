@@ -4,8 +4,8 @@ const CanvasLayout = ({ children, ...props }) => {
   const [cursorPoint, setcursorPoint] = useState({ x: 100, y: 100 });
   const [trailCursor, settrailCursor] = useState([]);
   const [trailDrawPoints, settrailDrawPoints] = useState([]);
-  const maxtrailPoints = 100;
-  const circleRadius = 30;
+  const maxtrailPoints = 50;
+  const circleRadius = 50;
 
   const lifoArr = (element, arr, maxCount) => {
     const res = [element];
@@ -26,9 +26,8 @@ const CanvasLayout = ({ children, ...props }) => {
   };
 
   const setCursor = ({ x, y }) => {
-    const point = { x: Math.round(x), y: Math.round(y) }
-    if (cursorPoint.x === point.x && cursorPoint.y === point.y) return
-    console.log('point, cursorPoint', point, cursorPoint)
+    const point = { x: Math.round(x), y: Math.round(y) };
+    if (cursorPoint.x === point.x && cursorPoint.y === point.y) return;
     setcursorPoint(point);
   };
 
@@ -61,8 +60,8 @@ const CanvasLayout = ({ children, ...props }) => {
   };
 
   const getPointsRotatedVector = (vec) => {
-    const v1 = { x: vec.x, y: -vec.y };
-    const v2 = { x: -vec.x, y: vec.y };
+    const v1 = { x: vec.y, y: -vec.x };
+    const v2 = { x: -vec.y, y: vec.x };
     return [v1, v2];
   };
 
@@ -94,13 +93,11 @@ const CanvasLayout = ({ children, ...props }) => {
     } else {
       const delta = circleRadius / (countPoint - 1);
       const data = trailCursor.map((el, idx, arr) => {
-        if (idx === 0) {
+        if (idx === 0)
           return getPerpendicularPointsOfVector(el, arr[1], circleRadius);
-        }
         if (idx === arr.length - 1) return [el, el];
-        const centerVector = getCenterVector(el, arr[idx + 1]);
         return getPerpendicularPointsOfVector(
-          centerVector,
+          el,
           arr[idx + 1],
           Math.round(delta * (countPoint - idx))
         );
