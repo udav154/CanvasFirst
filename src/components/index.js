@@ -8,6 +8,7 @@ import CursorCircle from "./CursorCircle";
 import Stats from "./Stats";
 import CanvasLayout from "./CanvasLayout";
 import CustomTrail from "./CustomTrail";
+import Track from "./Track";
 
 export {
   SettingsSide,
@@ -17,6 +18,7 @@ export {
   CursorCircle,
   CanvasLayout,
   CustomTrail,
+  Track,
   CanvasUI,
   Viewport,
   Stats

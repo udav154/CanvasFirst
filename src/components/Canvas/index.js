@@ -6,6 +6,7 @@ import {
   CursorCircle,
   Viewport,
   CustomTrail,
+  Track,
   Stats,
 } from "@components";
 import CanvasLayout from "components/CanvasLayout";
@@ -60,10 +61,10 @@ const Canvas = ({ text, ...props }) => {
     <div ref={canvasWrap} className={"canvas_wrap"}>
       <CanvasLayout>
         {({
-          cursorPoint,
           circleRadius,
-          handleMouseMove,
+          cursorPoint,
           trailDrawPoints,
+          handleMouseMove,
           ...layoutProps
         }) => {
           return (
@@ -80,81 +81,30 @@ const Canvas = ({ text, ...props }) => {
                   return (
                     <>
                       {/* <Viewport app={app}> */}
-                      
+
                       {/* <TrailCursor app={app} /> */}
                       {/* <CursorCircle app={app} /> */}
-                      
-                      {/* <Text
-                        x={200}
-                        y={500}
-                        style={{ color: 0x000000 }}
-                        text={text || "placeholder"}
-                      /> */}
 
-                      {/* {trailDrawPoints && trailDrawPoints.length > 3 ? 
-                      <CustomTrail fill={0x000000} coords={trailDrawPoints}/>
-                      : null} */}
-
-                      {/* {trailDrawPoints.map((el, idx) => {
-                        if (idx === 0) {
-                          return (
-                            <>
-                              <CanvasUI.Circle
-                                fill={0x000000}
-                                x={el[0].x- 70}
-                                y={el[0].y}
-                                radius={3}
-                                id={`top${idx}`}
-                                lineStyle={1}
-                                alpha={1}
-                              />
-                              <CanvasUI.Circle
-                                fill={0x000000}
-                                x={el[1].x - 70}
-                                y={el[1].y}
-                                radius={3}
-                                id={`bot${idx}`}
-                                lineStyle={1}
-                                alpha={1}
-                              />
-                            </>
-                          );
-                        }
-                        return (
-                          <>
-                            <CanvasUI.Circle
-                              fill={0xfff}
-                              x={el[0].x- 70}
-                              y={el[0].y}
-                              radius={3}
-                              id={`top${idx}`}
-                              lineStyle={1}
-                              alpha={0.3}
-                            />
-                            <CanvasUI.Circle
-                              fill={0xfff}
-                              x={el[1].x - 70}
-                              y={el[1].y}
-                              radius={3}
-                              id={`bot${idx}`}
-                              lineStyle={1}
-                              alpha={0.3}
-                            />
-                          </>
-                        );
-                      })} */}
-
+                      {trailDrawPoints.length > 2 ? (
+                        <>
+                          <Track coords={trailDrawPoints} />
+                          <CustomTrail
+                            fill={0x000000}
+                            coords={trailDrawPoints}
+                          />
+                        </>
+                      ) : null}
 
                       <CanvasUI.Circle
                         fill={0xfff}
-                        x={cursorPoint?.x - 70 || 50}
+                        x={cursorPoint?.x  || 50}
                         y={cursorPoint?.y || 50}
                         radius={circleRadius}
                         id={6}
                         lineStyle={1}
                         alpha={0.3}
                       />
-                      
+
                       {/* </Viewport> */}
                     </>
                   );

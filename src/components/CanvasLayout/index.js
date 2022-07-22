@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 
 const CanvasLayout = ({ children, ...props }) => {
-  const [cursorPoint, setcursorPoint] = useState({ x: 100, y: 100 });
+  const [cursorPoint, setcursorPoint] = useState({});
   const [trailCursor, settrailCursor] = useState([]);
   const [trailDrawPoints, settrailDrawPoints] = useState([]);
-  const maxtrailPoints = 50;
+  const maxtrailPoints = 40;
   const circleRadius = 50;
 
   const lifoArr = (element, arr, maxCount) => {
@@ -26,7 +26,7 @@ const CanvasLayout = ({ children, ...props }) => {
   };
 
   const setCursor = ({ x, y }) => {
-    const point = { x: Math.round(x), y: Math.round(y) };
+    const point = { x: Math.round(x-70), y: Math.round(y) };
     if (cursorPoint.x === point.x && cursorPoint.y === point.y) return;
     setcursorPoint(point);
   };
@@ -36,14 +36,14 @@ const CanvasLayout = ({ children, ...props }) => {
     setCursor(event.nativeEvent);
   };
 
-  const getVecLength = (p1, p2) => {
-    return Math.sqrt((p2.x - p1.x) ** 2 + (p2.y - p1.y) ** 2);
-  };
-
   const getCenterVector = (p1, p2) => {
     const x = (p2.x + p1.x) / 2;
     const y = (p2.y + p1.y) / 2;
     return { x, y };
+  };
+
+  const getVecLength = (p1, p2) => {
+    return Math.sqrt((p2.x - p1.x) ** 2 + (p2.y - p1.y) ** 2);
   };
 
   const getNormalizeVecor = (p1, p2) => {
@@ -70,7 +70,10 @@ const CanvasLayout = ({ children, ...props }) => {
   };
 
   const unNormalizeVector = (startVec, normVec) => {
-    return { x: startVec.x + normVec.x, y: startVec.y + normVec.y };
+    return {
+      x: Math.round(startVec.x + normVec.x),
+      y: Math.round(startVec.y + normVec.y),
+    };
   };
 
   const getPerpendicularPointsOfVector = (p1, p2, length) => {
@@ -87,33 +90,73 @@ const CanvasLayout = ({ children, ...props }) => {
     return unnormPoints;
   };
 
-  useEffect(() => {
-    const countPoint = trailCursor.length;
-    if (countPoint < 2) {
+  const addPointToTrail = (oldTrail, newPoint) => {
+    if (oldTrail.length >= maxtrailPoints) {
+      return lifoArr(newPoint, oldTrail, maxtrailPoints);
     } else {
-      const delta = circleRadius / (countPoint - 1);
-      const data = trailCursor.map((el, idx, arr) => {
-        if (idx === 0)
-          return getPerpendicularPointsOfVector(el, arr[1], circleRadius);
-        if (idx === arr.length - 1) return [el, el];
-        return getPerpendicularPointsOfVector(
-          el,
-          arr[idx + 1],
-          Math.round(delta * (countPoint - idx))
-        );
-      });
-      settrailDrawPoints(data);
+      return customUnShift(newPoint, oldTrail);
+    }
+  };
+
+  const circleCircle = (x1, y1, x2, y2, r1, r2) => {
+    var x = x1 - x2;
+    var y = y2 - y1;
+    var radii = r1 + r2;
+    return x * x + y * y <= radii * radii;
+  };
+
+  const getDataPoint = (p1, p2, radius) => {
+    const sidePoints = getPerpendicularPointsOfVector(
+      p1,
+      p2,
+      radius
+    );
+    return [p1, ...sidePoints, radius];
+  };
+
+  const fillTrailData = (pointsTrack) => {
+    const countPoints = pointsTrack.length;
+    const delta = circleRadius / (countPoints - 1);
+    let currentCircleIdx = 0;
+    let radiusCurrCircle = circleRadius;
+    const trackPointsAndRadius = [getDataPoint(pointsTrack[0], pointsTrack?.[1], circleRadius)];
+
+    for (let i = 0; i < countPoints; i++) {
+      const radius = Math.round(delta * (countPoints - i));
+      const iscollision = circleCircle(
+        pointsTrack[currentCircleIdx].x,
+        pointsTrack[currentCircleIdx].y,
+        pointsTrack[i].x,
+        pointsTrack[i].y,
+        radiusCurrCircle,
+        radius
+      );
+      if (iscollision) {
+        continue;
+      }
+      currentCircleIdx = i;
+      const newPointData = getDataPoint(pointsTrack[i], pointsTrack?.[i + 1] || pointsTrack?.[i - 1], radius)
+      // const sidePoints = getPerpendicularPointsOfVector(
+      //   pointsTrack[i],
+      //   pointsTrack?.[i + 1] || pointsTrack?.[i - 1],
+      //   radius
+      // );
+      // const pointData = [pointsTrack[i], ...sidePoints, radius];
+      trackPointsAndRadius[trackPointsAndRadius.length] = newPointData;
+    }
+    trackPointsAndRadius[trackPointsAndRadius.length] = [pointsTrack[pointsTrack.length-1], pointsTrack[pointsTrack.length-1],pointsTrack[pointsTrack.length-1],0];
+    return trackPointsAndRadius;
+  };
+
+  useEffect(() => {
+    if (trailCursor.length > 2) {
+      settrailDrawPoints((prevState) => fillTrailData(trailCursor));
     }
   }, [trailCursor]);
 
   useEffect(() => {
-    if (trailCursor.length >= maxtrailPoints) {
-      settrailCursor((prevstate) =>
-        lifoArr(cursorPoint, prevstate, maxtrailPoints)
-      );
-    } else {
-      settrailCursor((prevstate) => customUnShift(cursorPoint, prevstate));
-    }
+    if (!cursorPoint.x) return  
+    settrailCursor((prevstate) => addPointToTrail(prevstate, cursorPoint));
   }, [cursorPoint]);
 
   return children({
