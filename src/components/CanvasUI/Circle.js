@@ -12,13 +12,16 @@ export const behavior = {
       fill,
       lineStyle = 0,
       id,
+      alpha=1,
       x = 0,
       y = 0,
       ...restNew
     } = newProps;
-
-    instance.clear();
-    instance.alpha = 0.5;
+    if (oldProps !== undefined) {
+      instance.clear();
+      instance.geometry.dispose()
+    }
+    instance.alpha = alpha;
     instance.beginFill(fill);
     instance.drawCircle(x, y, radius);
     instance.endFill();
@@ -28,9 +31,6 @@ export const behavior = {
 };
 
 const Circle = ({ ...props }) => {
-  useEffect(() => {
-    console.log("render Circle");
-  }, []);
 
   const CircleConstructor = CustomPIXIComponent(behavior, TYPE);
 

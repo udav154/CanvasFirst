@@ -5,17 +5,11 @@ import {
   TrailCursor,
   CursorCircle,
   Viewport,
+  CustomTrail,
+  Track,
   Stats,
 } from "@components";
 import CanvasLayout from "components/CanvasLayout";
-
-// const EventsCollector = ({ app, children, ...props }) => {
-//   useEffect(() => {
-//     console.log(111111);
-//   }, []);
-
-//   return children({});
-// };
 
 const Canvas = ({ text, ...props }) => {
   const [canvasWidth, setCanvasWidth] = useState({
@@ -66,14 +60,21 @@ const Canvas = ({ text, ...props }) => {
   return (
     <div ref={canvasWrap} className={"canvas_wrap"}>
       <CanvasLayout>
-        {({ cursorPoint, setCursor, ...layoutProps }) => {
+        {({
+          circleRadius,
+          cursorPoint,
+          trailDrawPoints,
+          handleMouseMove,
+          ...layoutProps
+        }) => {
+          
           return (
             <Stage
               className={"scene"}
               options={options}
               width={canvasWidth.width}
               height={canvasWidth.height}
-              onPointerMove={setCursor}
+              onPointerMove={handleMouseMove}
             >
               <Stats />
               <AppContext.Consumer>
@@ -83,20 +84,27 @@ const Canvas = ({ text, ...props }) => {
                       {/* <Viewport app={app}> */}
                       {/* <TrailCursor app={app} /> */}
                       {/* <CursorCircle app={app} /> */}
-                      {/* <Text
-                        x={200}
-                        y={500}
-                        style={{ color: 0x000000 }}
-                        text={text || "placeholder"}
-                      /> */}
+
+                      {trailDrawPoints.length > 2 ? (
+                        <>
+                          <Track coords={trailDrawPoints} />
+                          <CustomTrail
+                            fill={0x000000}
+                            coords={trailDrawPoints}
+                          />
+                        </>
+                      ) : null}
+
                       <CanvasUI.Circle
                         fill={0xfff}
-                        x={cursorPoint?.x - 70 || 50}
+                        x={cursorPoint?.x  || 50}
                         y={cursorPoint?.y || 50}
-                        radius={10}
+                        radius={circleRadius}
                         id={6}
                         lineStyle={1}
+                        alpha={0.3}
                       />
+
                       {/* </Viewport> */}
                     </>
                   );
